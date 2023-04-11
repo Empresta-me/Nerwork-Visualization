@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>W3.CSS Template</title>
+        <title>EMPRESTA.ME-Network-Visualization</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -42,15 +42,19 @@
         </style>
     </head>
     <body>
-
         <div class="bgimg w3-display-container w3-animate-opacity w3-text-black">
-        <div class="w3-display-topleft w3-padding-large w3-xlarge">
-            EMPRESTA.ME
-        </div>
-        <div class="w3-display-middle">
-            <div id="container"></div>
-            <svg id = "mySvg" width="960" height="600"></svg>
-        </div>
+          <div class="w3-display-topleft w3-padding-large w3-xlarge">
+              EMPRESTA.ME
+          </div>
+          <div id = "stats" class="w3-display-left w3-padding-large w3-xlarge" style="margin-left: 50px; max-width: 500px; word-wrap: break-word;">
+            Network Stats
+            <ul id="node-list"></ul>
+          </div>
+          <div class="w3-display-middle" >
+            <div id="container">
+              <svg id = "mySvg" width="960" height="600"></svg>
+            </div>
+          </div>
         </div>
     </body>
 
@@ -64,7 +68,7 @@
       //intialize data
       d3.json("data/test_small_data.json", function(data) {
         var graph = data;
-        console.log(graph.nodes);
+        //console.log(graph.nodes);
 
       var simulation = d3
         .forceSimulation(graph.nodes)
@@ -108,8 +112,8 @@
             return link.source === d.target && link.target === d.source;
           })[0];
           var otherValue = otherLink.value;
-          console.log(d.value)
-          console.log(otherValue)
+          //console.log(d.value)
+          //console.log(otherValue)
           
           // Set tooltip content based on the boolean value of the other link
           if (d.value === 0 || otherValue === 0) {
@@ -157,12 +161,12 @@
             .on("end", dragended)
         )
         .on("mouseenter", function(d) {
-          console.log("mouseover")
+          //console.log("mouseover")
           tooltip.style("display", "block")
           tooltip.transition()
           .duration(200)
           .style("opacity", .9);
-          tooltip.html(d.name)
+          tooltip.html(d.name + " - " + d.trustValue + " %")
           .style("left", (d3.event.pageX) + "px")
           .style("top", (d3.event.pageY - 28) + "px");
         })
@@ -173,7 +177,17 @@
       ;
 
 
-
+      function updateStats(nodes) {
+        const nodeList = document.getElementById("node-list");
+        // clear previous list of nodes
+        nodeList.innerHTML = "";
+        // add each node to the list
+        nodes.forEach(node => {
+          const li = document.createElement("li");
+          li.textContent = `${node.name} - ${node.trustValue} %`;
+          nodeList.appendChild(li);
+        });
+      }
 
 
       function ticked() {
@@ -213,6 +227,9 @@
           .attr("cy", function(d) {
             return d.y;
           });
+
+
+        updateStats(graph.nodes); // call the function to update the stats div
       }
 
       function dragstarted(d) {

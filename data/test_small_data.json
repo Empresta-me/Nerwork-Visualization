@@ -1,14 +1,15 @@
 {
     "nodes": [
-        { "name": "Alice", "id": 1 , "logo": "http://marvel-force-chart.surge.sh/marvel_force_chart_img/top_spiderman.png"},
-        { "name": "Bob", "id": 2, "logo": "http://marvel-force-chart.surge.sh/marvel_force_chart_img/top_spiderman.png" },
-        { "name": "Chen", "id": 3, "logo": "http://marvel-force-chart.surge.sh/marvel_force_chart_img/top_spiderman.png" },
-        { "name": "Dawg", "id": 4, "logo": "http://marvel-force-chart.surge.sh/marvel_force_chart_img/top_spiderman.png" },
-        { "name": "Ethan", "id": 5, "logo": "http://marvel-force-chart.surge.sh/marvel_force_chart_img/top_spiderman.png" },
-        { "name": "Frank", "id": 6, "logo": "http://marvel-force-chart.surge.sh/marvel_force_chart_img/top_spiderman.png" },
-        { "name": "George", "id": 7, "logo": "http://marvel-force-chart.surge.sh/marvel_force_chart_img/top_spiderman.png" },
-        { "name": "Hanes", "id": 8, "logo": "http://marvel-force-chart.surge.sh/marvel_force_chart_img/top_spiderman.png" },
-        { "name": "Ivan", "id": 9, "logo": "http://marvel-force-chart.surge.sh/marvel_force_chart_img/top_spiderman.png" }
+        { "name": "Alice", "id": 1, "trustValue": 90, "logo": "http://marvel-force-chart.surge.sh/marvel_force_chart_img/top_spiderman.png"},
+        { "name": "Bob", "id": 2, "trustValue": 82, "logo": "http://marvel-force-chart.surge.sh/marvel_force_chart_img/top_spiderman.png" },
+        { "name": "Chen", "id": 3, "trustValue": 94, "logo": "http://marvel-force-chart.surge.sh/marvel_force_chart_img/top_spiderman.png" },
+        { "name": "Dawg", "id": 4, "trustValue": 91, "logo": "http://marvel-force-chart.surge.sh/marvel_force_chart_img/top_spiderman.png" },
+        { "name": "Ethan", "id": 5, "trustValue": 87, "logo": "http://marvel-force-chart.surge.sh/marvel_force_chart_img/top_spiderman.png" },
+        { "name": "Frank", "id": 6, "trustValue": 93, "logo": "http://marvel-force-chart.surge.sh/marvel_force_chart_img/top_spiderman.png" },
+        { "name": "George", "id": 7, "trustValue": 85, "logo": "http://marvel-force-chart.surge.sh/marvel_force_chart_img/top_spiderman.png" },
+        { "name": "Hanes", "id": 8, "trustValue": 75, "logo": "http://marvel-force-chart.surge.sh/marvel_force_chart_img/top_spiderman.png" },
+        { "name": "Ivan", "id": 9, "trustValue": 99, "logo": "http://marvel-force-chart.surge.sh/marvel_force_chart_img/top_spiderman.png" },
+        { "name": "Juan", "id": 10, "trustValue": 96, "logo": "http://marvel-force-chart.surge.sh/marvel_force_chart_img/top_spiderman.png" }
     ],
     "links": [
         { "source": "Alice", "target": "Bob", "value": 1 },
@@ -24,6 +25,10 @@
         { "source": "Dawg", "target": "Ethan", "value": 0 },
         { "source": "Ethan", "target": "Dawg", "value": 0 },
         { "source": "Ivan", "target": "Chen", "value": 1},
-        { "source": "Chen", "target": "Ivan", "value": 0}
+        { "source": "Chen", "target": "Ivan", "value": 0},
+        { "source": "Juan", "target": "Alice", "value": 1},
+        { "source": "Alice", "target": "Juan", "value": 0},
+        { "source": "Juan", "target": "Bob", "value": 1},
+        { "source": "Bob", "target": "Juan", "value": 1}
     ]
 }
