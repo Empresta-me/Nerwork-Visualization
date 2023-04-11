@@ -116,15 +116,23 @@
             return link.source === d.target && link.target === d.source;
           })[0];
           var otherValue = otherLink.value;
-          //console.log(d.value)
-          //console.log(otherValue)
-          
-          // Set tooltip content based on the boolean value of the other link
-          if (d.value === 0 || otherValue === 0) {
-            tooltip.html(0);
-          } else {
-            tooltip.html(1);
+
+          var thisName = d.source.name;
+          var thisMessage = d.message;
+          var otherName = otherLink.source.name;
+          var otherMessage = otherLink.message;
+
+          // display messages if they exist
+          if (thisMessage && otherMessage)  {
+            tooltip.html(thisName + " : " + thisMessage + "<br>" + otherName + " : " + otherMessage);
+          } else if (otherMessage) {
+            tooltip.html(otherName + " : " + otherMessage);
+          } else if (thisMessage) {
+            tooltip.html(thisName + " : " + thisMessage);
+          } else{
+            tooltip.html("");
           }
+          
         
 
           tooltip.style("left", (d3.event.pageX) + "px")
