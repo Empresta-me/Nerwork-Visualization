@@ -7,7 +7,6 @@
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
         <link rel="shortcut icon" href="network.png">
-        <script src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js" charset="utf-8"></script>
 
         <style>
             body,h1 {font-family: "Raleway", sans-serif}
@@ -20,13 +19,11 @@
             .links line {
               stroke-opacity: 1;
               stroke-width: 9px;
-              /* stroke-width: 3px; */
             }
 
             .nodes circle {
-              stroke: #fff;
-              /* stroke-width: 2.5px; */
-              stroke-width: 1.5px;
+              stroke: #ff8c00;
+              stroke-width: 10px;
               pointer-events: all;
             }
 
@@ -61,7 +58,6 @@
     </body>
 
     <script src="https://d3js.org/d3.v4.min.js"></script>
-    <!-- <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script> -->
     <script>
       //initilize svg or grab svg
       var svg = d3.select("#mySvg");
@@ -151,7 +147,12 @@
         .data(graph.nodes)
         .enter()
         .append("circle")
-        .attr("r", 15)
+        .attr("r", function(d) {
+          // Set the radius to outline the user
+          return d.is_user ? 31 + d.trustValue/800 : 15;
+          return false ? 31 + d.trustValue/800 : 15 + d.trustValue/800;
+        })
+        /* .attr("r", 30) */
         .each(function(d) {
           // set r as a property on the data object
           d.r = 30;
@@ -196,18 +197,23 @@
       // Enter any new nodes.
       var nodeEnter = nodeAgain.enter().append("svg:g")
         .attr("class", "node")
-        .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
 
 
       // Append imagesvar 
       var images = nodeEnter.append("image")
         .attr("xlink:href", function(d) { 
           return d.logo; })
-        .attr("x", function(d) { return d.x - d.r; })
-        .attr("y", function(d) { return  d.y - d.r; })
-        .attr("transform", function(d) { return "translate(" + -d.x + "," + -d.y + ")"; })
-        .attr("height", 60)
-        .attr("width", 60)
+        /* .attr("transform", function(d) {return d.is_user ? "translate(" + -60-(d.trustValue/4) + "," + -60-(d.trustValue/4) + ")" : "tralate";}) */
+        .attr("width", function(d) {
+          // Set the radius to outline the user
+          //return d.is_user ? 60*(1 + d.trustValue/400): 60;
+          return 20 + d.trustValue/2;
+        })
+        .attr("height", function(d) {
+          // Set the radius to outline the user
+          //return d.is_user ? 60*(1 + d.trustValue/400): 60;
+          return 20 + d.trustValue/2;
+        })
         .attr("pointer-events", "all") // enable mouse events on the image
         .call(
           d3
