@@ -158,11 +158,10 @@
           d.r = 30;
         })
 
-        /* .attr("r", 15) */ // ----- radius of the inner (collored) circle
         .attr("fill", function(d) {
           return "#eee"
         })
-
+       
 
         .attr("pointer-events", "all") // enable mouse events on the circle
         .call(
@@ -187,32 +186,38 @@
         tooltip.style("display", "none");
         })
       ;
-
+      
 
 
       var nodeAgain = svg.selectAll("g.node")
         .data(graph.nodes, function(d) { return d.id; });
+        
     
     
       // Enter any new nodes.
       var nodeEnter = nodeAgain.enter().append("svg:g")
-        .attr("class", "node")
+        .attr("class", "node");
+        
 
+      var sizeScale = d3.scaleLinear()
+        .domain([0, 100]) // input (trust value)
+        .range([20, 60]); // output (radius)
 
       // Append imagesvar 
       var images = nodeEnter.append("image")
         .attr("xlink:href", function(d) { 
           return d.logo; })
-        /* .attr("transform", function(d) {return d.is_user ? "translate(" + -60-(d.trustValue/4) + "," + -60-(d.trustValue/4) + ")" : "tralate";}) */
+        // .attr("transform", function(d) {return d.is_user ? "translate(" + -60-(d.trustValue/4) + "," + -60-(d.trustValue/4) + ")" : "tralate";})
         .attr("width", function(d) {
           // Set the radius to outline the user
           //return d.is_user ? 60*(1 + d.trustValue/400): 60;
-          return 20 + d.trustValue/2;
+          return sizeScale(d.trustValue);
         })
         .attr("height", function(d) {
+          
           // Set the radius to outline the user
           //return d.is_user ? 60*(1 + d.trustValue/400): 60;
-          return 20 + d.trustValue/2;
+          return sizeScale(d.trustValue);
         })
         .attr("pointer-events", "all") // enable mouse events on the image
         .call(
@@ -235,7 +240,16 @@
         // Add mouseout event listener to hide tooltip
         .on("mouseout", function(d) {
         tooltip.style("display", "none");
-        });
+        }); 
+
+        var name = nodeEnter.append("text")
+        .attr("text-anchor", "middle")
+        .attr("dy", "-.45em")
+        //.attr("dy", "2.5em")
+        .attr("fill", "black")
+        .attr("font-size", "20px")
+        .text(function(d) { return d.name })
+        ;
 
 
       function updateStats(nodes) {
@@ -256,6 +270,12 @@
         .attr("x", function(d) { return d.x - d.r;})
         .attr("y", function(d) { return d.y - d.r ;})
         ;
+        name
+        .attr("x", function(d) { return d.x;})
+        .attr("y", function(d) { return d.y - d.r ;})
+        ;
+
+
         link
           .attr("x1", function(d) {
             return d.source.x;
