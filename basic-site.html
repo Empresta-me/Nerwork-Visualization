@@ -6,20 +6,51 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400&display=swap" rel="stylesheet">
         <link rel="shortcut icon" href="network.png">
 
         <style>
-            body,h1 {font-family: "Raleway", sans-serif}
+            body,h1 {
+              font-family: "Raleway", sans-serif;
+              /* font-family: 'Comfortaa', cursive; */
+              margin: 0;      
+          }
             body, html {height: 100%}
-            .bgimg {
-            min-height: 100%;
-            background-position: center;
-            background-size: cover;
-            }
             .links line {
               stroke-opacity: 1;
               stroke-width: 9px;
             }
+
+            .content {
+              position: relative;
+              height: 100%;
+              background-color: #232323;
+              z-index: 1;
+            }
+
+            /* Styles for mobile devices */
+            @media only screen and (max-width: 768px) {
+              .stats { 
+                color: #232323; /* hide stats */
+              }
+            }
+
+            /* Styles for PC devices */
+            @media only screen and (min-width: 769px) {
+              .stats {
+                color: #ffffff;
+              }
+            }
+
+              .stats {
+                margin-left: 50px; 
+                max-width: 500px; 
+                word-wrap: break-word;
+                z-index: 2; /* behind the graph */
+              }
+
 
             .nodes circle {
               stroke: #ff8c00;
@@ -41,11 +72,11 @@
         </style>
     </head>
     <body>
-        <div class="bgimg w3-display-container w3-animate-opacity w3-text-black">
+        <div class="content w3-display-container w3-animate-opacity w3-text-white">
           <div class="w3-display-topleft w3-padding-large w3-xlarge">
-              EMPRESTA.ME
+            EMPRESTA.ME
           </div>
-          <div id = "stats" class="w3-display-left w3-padding-large w3-xlarge" style="margin-left: 50px; max-width: 500px; word-wrap: break-word;">
+          <div id = "stats" class="w3-display-left w3-padding-large w3-xlarge stats" >
             Network Stats
             <ul id="node-list"></ul>
           </div>
@@ -83,7 +114,7 @@
             //.distance(100) // length of links
         )
 
-        .force("charge", d3.forceCollide().radius(50).strength(0.1))
+        .force("charge", d3.forceCollide().radius(55).strength(0.1))
         /* .force("charge", d3.forceManyBody().strength(-100) )*/
         .force("center", d3.forceCenter(width / 2, height / 2))
         .on("tick", ticked);
@@ -149,8 +180,8 @@
         .append("circle")
         .attr("r", function(d) {
           // Set the radius to outline the user
-          return d.is_user ? 31 + d.trustValue/800 : 15;
-          return false ? 31 + d.trustValue/800 : 15 + d.trustValue/800;
+          return d.is_user ? 31 + d.trustValue/15 : 15;
+          //return false ? 31 + d.trustValue/800 : 15 + d.trustValue/800;
         })
         /* .attr("r", 30) */
         .each(function(d) {
@@ -201,12 +232,16 @@
 
       var sizeScale = d3.scaleLinear()
         .domain([0, 100]) // input (trust value)
-        .range([20, 60]); // output (radius)
+        .range([20, 80]); // output (radius)
 
       // Append imagesvar 
       var images = nodeEnter.append("image")
         .attr("xlink:href", function(d) { 
           return d.logo; })
+        .attr("transform", function(d) {
+          var size = sizeScale(d.trustValue);
+          return "translate(" + -size/15 + "," + -size/15 + ")";
+        })
         // .attr("transform", function(d) {return d.is_user ? "translate(" + -60-(d.trustValue/4) + "," + -60-(d.trustValue/4) + ")" : "tralate";})
         .attr("width", function(d) {
           // Set the radius to outline the user
@@ -246,9 +281,10 @@
         .attr("text-anchor", "middle")
         .attr("dy", "-.45em")
         //.attr("dy", "2.5em")
-        .attr("fill", "black")
+        .attr("fill", "white")
         .attr("font-size", "20px")
-        .text(function(d) { return d.name })
+        .attr("font-weight", "bold")
+        .text(function(d) { return d.name; })
         ;
 
 
