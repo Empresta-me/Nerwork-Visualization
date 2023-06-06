@@ -83,6 +83,9 @@
             <div id="container">
               <svg id = "mySvg" width="960" height="600"></svg>
             </div>
+            <button style="display: block; margin: auto;" onclick="addNode()">
+              Add Random Node
+            </button>
           </div>
         </div>
     </body>
@@ -330,7 +333,7 @@
         .on("contextmenu", function(d) {
           d3.event.preventDefault(); // Prevent default right-click context menu
 
-          //removeNode(d);
+          removeNode(d);
         })
         ;
       
@@ -391,7 +394,7 @@
         .on("contextmenu", function(d) {
           d3.event.preventDefault(); // Prevent default right-click context menu
 
-          //removeNode(d);
+          removeNode(d);
         })
         ;
 
@@ -433,7 +436,7 @@
         .on("contextmenu", function(d) {
           d3.event.preventDefault(); // Prevent default right-click context menu
 
-          //removeNode(d);
+          removeNode(d);
         })
         ;
 
